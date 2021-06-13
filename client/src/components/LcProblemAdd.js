@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LcProblemAdd = () => {
+const LcProblemAdd = ({ toggle, setRender }) => {
   const alert = useAlert()
   const classes = useStyles();
   const [problem, setProblem] = useState({});
@@ -36,6 +36,7 @@ const LcProblemAdd = () => {
         if (res.status !== 200) {
           alert.error('Failed to add the record')
         } else {
+          setRender(!toggle);
           alert.success('Added record successfully')
         }
       })

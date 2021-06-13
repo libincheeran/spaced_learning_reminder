@@ -9,21 +9,24 @@ import Paper from '@material-ui/core/Paper';
 import React, { useState, useEffect } from 'react'
 import { useAlert } from 'react-alert'
 
-
-const LcProblemOverdue = () => {
+const LcProblemOverdue = ({ toggle, setRender }) => {
 
   const alert = useAlert()
 
   const useStyles = makeStyles({
     table: {
       minWidth: 650,
+      alignItems: 'center'
     },
+    button: {
+      justifyContent: 'center'
+    }
   });
 
   const classes = useStyles();
 
   const [problems, setProblem] = useState([]);
-  const [reRender, setRender] = useState(true);
+  // const [reRender, setRender] = useState(true);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/lcProblem/overdue")
@@ -32,7 +35,7 @@ const LcProblemOverdue = () => {
         setProblem(problems);
       });
     console.log("component mounted")
-  }, [reRender])
+  }, [toggle])
 
 
   const handleDeleteClick = (row) => {
@@ -48,7 +51,7 @@ const LcProblemOverdue = () => {
         if (res.status !== 200) {
           alert.error(`Failed to delete record ${id}`)
         } else {
-          setRender(!reRender);
+          setRender(!toggle);
           alert.success(`Deleted record ${row.problemId}`)
         }
       })
@@ -59,7 +62,7 @@ const LcProblemOverdue = () => {
     <div>
       <h2> Overdue Problems
       &nbsp;&nbsp;&nbsp;
-      <Button variant="outlined" color="primary" onClick={() => setRender(!reRender)}>Refresh</Button>
+      {/* <Button variant="outlined" color="primary" onClick={() => setRender(!reRender)}>Refresh</Button> */}
         <br></br>
       </h2>
       <TableContainer component={Paper}>
@@ -69,11 +72,10 @@ const LcProblemOverdue = () => {
               <TableRow key={row.id}>
                 <TableCell align="left">{row.problemId}</TableCell>
                 <TableCell align="center">{row.description}</TableCell>
+
                 <Button size="small" variant="contained" color="primary" onClick={() => handleDeleteClick(row)}>Done</Button>
 &nbsp;&nbsp;&nbsp;
                 <Button size="small" variant="contained" color="secondary" onClick={() => handleDeleteClick(row)}>Delete</Button>
-
-
               </TableRow>
             ))}
           </TableBody>
