@@ -24,20 +24,48 @@ git clone <repository-url>
 cd spaced_learning_reminder
 ```
 
-2. Build and start the containers:
+2. Start the application with automatic database persistence:
 ```bash
-docker-compose up --build
+./scripts/auto_save.sh
 ```
 
-This will start three containers:
-- MySQL database on port 3306
-- Spring Boot backend on port 8080
-- React frontend on port 80
+This will:
+- Start all containers (MySQL, backend, and frontend)
+- Automatically load the database state from `data/init.sql`
+- Automatically save the database state when the containers are stopped
+- The saved state will be committed to git for version control
 
 3. Access the application:
 - Frontend: http://localhost
 - Backend API: http://localhost:8080
 - MySQL: localhost:3306
+- Swagger UI: http://localhost:8080/swagger-ui.html
+
+### Database Persistence
+
+The application automatically manages database state:
+- On startup: The database is initialized from `data/init.sql`
+- During runtime: All changes are stored in the MySQL container
+- On shutdown: The current database state is automatically saved to `data/init.sql`
+
+The `data/init.sql` file is version controlled, so you can:
+- Track changes to your database over time
+- Share database state with other developers
+- Roll back to previous states if needed
+
+## API Endpoints
+
+The backend provides the following REST API endpoints:
+
+### Problem Management
+- `GET /api/lcProblem/all` - Get all problems
+- `GET /api/lcProblem/overdue` - Get overdue problems
+- `POST /api/lcProblem` - Add a new problem
+- `DELETE /api/lcProblem/all` - Delete all problems
+- `DELETE /api/lcProblem/done/{problemId}` - Mark a problem as done
+- `DELETE /api/lcProblem/delete/{id}` - Delete a specific problem
+
+For detailed API documentation, visit the Swagger UI at http://localhost:8080/swagger-ui.html
 
 ## Running without Docker
 

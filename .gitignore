@@ -1,69 +1,38 @@
 # Gradle
-HELP.md
-.gradle
+.gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-# STS
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-# IntelliJ IDEA
-.idea
-*.iws
+# IDE
+.idea/
 *.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-# NetBeans
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-# VS Code
 .vscode/
+.settings/
+.project
+.classpath
 
-# React
-/client/node_modules
-/client/build
-/client/.env
-/client/.env.local
-/client/.env.development.local
-/client/.env.test.local
-/client/.env.production.local
-/client/npm-debug.log*
-/client/yarn-debug.log*
-/client/yarn-error.log*
-
-# Spring Boot
-/target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Docker
-.docker/
-docker-compose.override.yml
+data/
+!data/init.sql
+
+# Logs
 *.log
 
-# Application specific
-/record.csv
-/lombok.config
-
-# OS specific
+# OS
 .DS_Store
 Thumbs.db
+
+# Application
+application-*.properties
+!application.properties
+!application-test.properties
+
+# Test reports
+test-results/
+reports/
