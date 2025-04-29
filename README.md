@@ -36,7 +36,7 @@ This will:
 - The saved state will be committed to git for version control
 
 3. Access the application:
-- Frontend: http://localhost
+- Frontend: http://localhost:3000
 - Backend API: http://localhost:8080
 - MySQL: localhost:3306
 - Swagger UI: http://localhost:8080/swagger-ui.html

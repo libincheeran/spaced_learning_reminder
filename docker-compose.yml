@@ -1,45 +1,52 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: Libin3137@mysql
-      MYSQL_DATABASE: leetcode
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pLibin3137@mysql"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
-
   backend:
-    build: .
-    container_name: spring-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/leetcode?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - APP.DUMP.PATH=/app/sql/leetcode_data.sql
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_REPO_OWNER=${GITHUB_REPO_OWNER}
+      - GITHUB_REPO_NAME=${GITHUB_REPO_NAME}
     depends_on:
       mysql:
         condition: service_healthy
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/leetcode?useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=Libin3137@mysql
+    volumes:
+      - ./sql:/app/sql
 
-  frontend:
-    build: 
-      context: ./frontend
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=leetcode
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    command: --default-authentication-plugin=mysql_native_password
+
+  client:
+    build:
+      context: ./client
       dockerfile: Dockerfile
-    container_name: react-frontend
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
+    volumes:
+      - ./client:/app
+      - /app/node_modules
 
 volumes:
   mysql_data: 
