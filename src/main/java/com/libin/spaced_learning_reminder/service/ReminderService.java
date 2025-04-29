@@ -23,10 +23,13 @@ public class ReminderService {
 
     private final LeetcodeRepo leetcodeRepo;
     private final Set<Integer> frequency;
+    private final DatabaseDumpService databaseDumpService;
 
     public ReminderService(LeetcodeRepo leetcodeRepo, 
+                         DatabaseDumpService databaseDumpService,
                          @Value("${app.reminder.frequency:3,9,19,29,45,120,220}") String frequencyConfig) {
         this.leetcodeRepo = leetcodeRepo;
+        this.databaseDumpService = databaseDumpService;
         this.frequency = parseFrequencyConfig(frequencyConfig);
     }
 
@@ -51,6 +54,7 @@ public class ReminderService {
         validateProblem(lcProblem);
         cleanupExistingReminders(lcProblem);
         scheduleNewReminders(lcProblem);
+        databaseDumpService.createDatabaseDump();
     }
 
     private void validateProblem(LCProblemEntity lcProblem) {
@@ -95,20 +99,6 @@ public class ReminderService {
                 .build();
     }
 
-    @Transactional(readOnly = true)
-    public List<LCProblemEntity> getOverDueProblems() {
-        log.info("Fetching overdue problems");
-        LocalDateTime now = LocalDateTime.now();
-        PageRequest page = PageRequest.of(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE);
-        
-        List<LCProblemEntity> overdueProblems = leetcodeRepo
-                .findByScheduledTimeBeforeOrderByScheduledTimeAsc(now, page)
-                .getContent();
-                
-        log.info("Found {} overdue problems", overdueProblems.size());
-        return overdueProblems;
-    }
-
     @Transactional
     public void removeEarliest(Integer problemId) {
         if (problemId == null) {
@@ -121,6 +111,7 @@ public class ReminderService {
                     this::deleteReminder,
                     () -> log.warn("No reminders found for problem: {}", problemId)
                 );
+        databaseDumpService.createDatabaseDump();
     }
 
     private void deleteReminder(LCProblemEntity reminder) {
@@ -137,6 +128,21 @@ public class ReminderService {
         log.info("Deleting reminder with ID: {}", id);
         leetcodeRepo.deleteById(id);
         log.info("Successfully deleted reminder with ID: {}", id);
+        databaseDumpService.createDatabaseDump();
+    }
+
+    @Transactional(readOnly = true)
+    public List<LCProblemEntity> getOverDueProblems() {
+        log.info("Fetching overdue problems");
+        LocalDateTime now = LocalDateTime.now();
+        PageRequest page = PageRequest.of(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE);
+        
+        List<LCProblemEntity> overdueProblems = leetcodeRepo
+                .findByScheduledTimeBeforeOrderByScheduledTimeAsc(now, page)
+                .getContent();
+                
+        log.info("Found {} overdue problems", overdueProblems.size());
+        return overdueProblems;
     }
 
     @Transactional(readOnly = true)
@@ -152,5 +158,6 @@ public class ReminderService {
         log.info("Deleting all problems");
         leetcodeRepo.deleteAll();
         log.info("Successfully deleted all problems");
+        databaseDumpService.createDatabaseDump();
     }
 }
