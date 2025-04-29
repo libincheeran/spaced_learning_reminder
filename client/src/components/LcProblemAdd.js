@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import { Button } from "@material-ui/core";
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import { useAlert } from 'react-alert'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
+const StyledForm = styled('form')(({ theme }) => ({
+  '& > *': {
+    margin: theme.spacing(1),
+    width: '25ch',
   },
 }));
 
 const LcProblemAdd = ({ toggle, setRender }) => {
   const alert = useAlert()
-  const classes = useStyles();
   const [problem, setProblem] = useState({});
 
   const setProblemObj = (event) => {
@@ -24,7 +21,6 @@ const LcProblemAdd = ({ toggle, setRender }) => {
   }
 
   const onSubmitHandler = (e) => {
-
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -45,13 +41,13 @@ const LcProblemAdd = ({ toggle, setRender }) => {
   }
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <StyledForm noValidate autoComplete="off">
       <TextField id="problemId" label="Problem Id" onChange={setProblemObj} />
       <TextField id="description" label="Problem Description" onChange={setProblemObj} />
       <TextField id="comments" label="Comment" onChange={setProblemObj} />
       &nbsp;&nbsp;&nbsp;
       <Button variant="contained" color="primary" onClick={onSubmitHandler}>Add</Button>
-    </form>
+    </StyledForm>
   );
 }
 
