@@ -14,11 +14,11 @@ CREATE TABLE `leetcode_problems` (
 -- Dumping data for table `leetcode_problems`
 
 LOCK TABLES `leetcode_problems` WRITE;
-INSERT INTO `leetcode_problems` VALUES (29,'periodic','periodic',500,'2025-05-18 09:13:41.687797');
-INSERT INTO `leetcode_problems` VALUES (30,'periodic','periodic',500,'2025-05-02 09:13:41.687797');
-INSERT INTO `leetcode_problems` VALUES (31,'periodic','periodic',500,'2025-08-27 09:13:41.687797');
-INSERT INTO `leetcode_problems` VALUES (32,'periodic','periodic',500,'2025-05-08 09:13:41.687797');
-INSERT INTO `leetcode_problems` VALUES (33,'periodic','periodic',500,'2025-12-05 09:13:41.687797');
-INSERT INTO `leetcode_problems` VALUES (34,'periodic','periodic',500,'2025-05-28 09:13:41.687797');
-INSERT INTO `leetcode_problems` VALUES (35,'periodic','periodic',500,'2025-06-13 09:13:41.687797');
+INSERT INTO `leetcode_problems` VALUES (50,'https://leetcode.com/problems/diameter-of-binary-tree/description/?envType=company&envId=facebook&favoriteSlug=facebook-thirty-days','Diameter of Binary Tree',543,'2025-05-02 09:24:26.66998');
+INSERT INTO `leetcode_problems` VALUES (51,'https://leetcode.com/problems/diameter-of-binary-tree/description/?envType=company&envId=facebook&favoriteSlug=facebook-thirty-days','Diameter of Binary Tree',543,'2025-05-18 09:24:26.66998');
+INSERT INTO `leetcode_problems` VALUES (52,'https://leetcode.com/problems/diameter-of-binary-tree/description/?envType=company&envId=facebook&favoriteSlug=facebook-thirty-days','Diameter of Binary Tree',543,'2025-08-27 09:24:26.66998');
+INSERT INTO `leetcode_problems` VALUES (53,'https://leetcode.com/problems/diameter-of-binary-tree/description/?envType=company&envId=facebook&favoriteSlug=facebook-thirty-days','Diameter of Binary Tree',543,'2025-05-08 09:24:26.66998');
+INSERT INTO `leetcode_problems` VALUES (54,'https://leetcode.com/problems/diameter-of-binary-tree/description/?envType=company&envId=facebook&favoriteSlug=facebook-thirty-days','Diameter of Binary Tree',543,'2025-12-05 09:24:26.66998');
+INSERT INTO `leetcode_problems` VALUES (55,'https://leetcode.com/problems/diameter-of-binary-tree/description/?envType=company&envId=facebook&favoriteSlug=facebook-thirty-days','Diameter of Binary Tree',543,'2025-06-13 09:24:26.66998');
+INSERT INTO `leetcode_problems` VALUES (56,'https://leetcode.com/problems/diameter-of-binary-tree/description/?envType=company&envId=facebook&favoriteSlug=facebook-thirty-days','Diameter of Binary Tree',543,'2025-05-28 09:24:26.66998');
 UNLOCK TABLES;

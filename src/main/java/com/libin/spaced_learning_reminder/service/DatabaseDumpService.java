@@ -30,6 +30,9 @@ public class DatabaseDumpService {
     @Value("${app.dump.path:sql/leetcode_data.sql}")
     private String dumpPath;
 
+    private int dumpCounter = 0;
+    private static final int LOG_INTERVAL = 25;
+
     @Scheduled(fixedRate = 60000) // Run every minute
     public void scheduledDatabaseDump() {
         log.info("Starting scheduled database dump");
@@ -75,7 +78,12 @@ public class DatabaseDumpService {
                 }
                 
                 writer.write("UNLOCK TABLES;\n");
-                log.info("Database dump created successfully at {}", absoluteDumpPath);
+                
+                // Only log success every 25th time
+                dumpCounter++;
+                if (dumpCounter % LOG_INTERVAL == 0) {
+                    log.info("Database dump created successfully at {}", absoluteDumpPath);
+                }
             }
         } catch (Exception e) {
             log.error("Error creating database dump", e);
